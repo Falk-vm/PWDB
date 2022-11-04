@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::str;
 //use std::fs::OpenOptions;
 //use std::io::Write;
 use fltk::{app,input, button::Button, frame::Frame, prelude::*, window::Window};
@@ -24,17 +25,13 @@ fn gen(password_len: String) -> String {
                             abcdefghijklmnopqrstuvwxyz\
                             0123456789)(*&^%$#@!~";
     let mut rng = rand::thread_rng();
-    let mut pwd_str = String::new();
-    for _i in 0..1 {
-        let password: String = (0..my_int)
-            .map(|_| {
-                let idx = rng.gen_range(0..CHARSET.len());
-                CHARSET[idx] as char
-            })
-            .collect();
-        pwd_str.push_str(&password);
+    let mut password = String::new();
+    for _i in 0..my_int {
+        let rn = rng.gen_range(0..CHARSET.len());
+        password.push_str(str::from_utf8(&[CHARSET[rn]]).unwrap());
     }
-    return pwd_str;
+
+    return password;
 }
 
 
@@ -49,4 +46,16 @@ fn write_to_file() {
         
     file.write_all(pwd_vec.join("\n").as_bytes()).unwrap();
     }
+
+
+    pub struct PasswordGenerator {
+    pub length: usize,
+    pub numbers: bool,
+    pub lowercase_letters: bool,
+    pub uppercase_letters: bool,
+    pub symbols: bool,
+    pub spaces: bool,
+    pub exclude_similar_characters: bool,
+    pub strict: bool,
+}
     */
